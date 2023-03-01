@@ -1,0 +1,22 @@
+{
+  "name": "d3_experimental",
+  "version": "1.0.0",
+  "description": "Trying various functionalities with D3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-general-lee/D3_Experimental.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/the-general-lee/D3_Experimental/issues"
+  },
+  "homepage": "https://github.com/the-general-lee/D3_Experimental#readme",
+  "dependencies": {
+    "create-react-app": "^5.0.1"
+  }
+}
