@@ -1,7 +1,9 @@
 import React from "react";
-import { scaleRadial, extent, min, scaleBand, arc, max, median } from "d3";
+import { scaleRadial, extent, scaleBand } from "d3";
 import { useData } from "./helpers/useData";
-
+import { LinearGrad } from "./components/Colors";
+import { Marks } from "./components/Marks";
+import { CentralLabels, CircularLabels } from "./components/circularPositions";
 const margin = { top: 20, bottom: 40, right: 45, left: 80 };
 const BarPlot = () => {
   const [data, monthlyData] = useData();
@@ -33,119 +35,34 @@ const BarPlot = () => {
 
   return (
     <svg width={1200} height={600}>
-      <defs>
-        {currentMonthData.map((datum) => (
-          <linearGradient
-            id={`day${xAccessor(datum)}`}
-            x1="0"
-            x2="0"
-            y1="0"
-            y2="1"
-            gradientTransform={
-              "rotate(" +
-              (-xScale(xAccessor(datum)) * 180) / Math.PI +
-              " 0.5 0.5)"
-            }
-          >
-            <stop offset="0%" stopColor="red" />
-
-            <stop offset="100%" stopColor="yellow" />
-          </linearGradient>
-        ))}
-      </defs>
+      <LinearGrad
+        xScale={xScale}
+        xAccessor={xAccessor}
+        currentMonthData={currentMonthData}
+      />
       <g transform={`translate(620, 300)`}>
-        {currentMonthData.map((datum) => (
-          <g>
-            <path
-              fill={`url(#day${xAccessor(datum)})`}
-              d={arc()
-                .innerRadius(innerRadius)
-                .outerRadius(yScale(yAccessor(datum)))
-                .startAngle(-xScale(xAccessor(datum)) - xScale.bandwidth())
-                .endAngle(-xScale(xAccessor(datum)))
-                .padAngle(0.01)
-                .padRadius(innerRadius)()}
-            />
-            <g
-              transform={
-                "rotate(" +
-                ((-(xScale(xAccessor(datum)) + xScale.bandwidth() / 2) * 180) /
-                  Math.PI -
-                  90) +
-                ")" +
-                "translate(" +
-                (yScale(yAccessor(datum)) + 10) +
-                ",0)"
-              }
-              textAnchor={
-                (xScale(xAccessor(datum)) + xScale.bandwidth() / 2 + Math.PI) %
-                  (2 * Math.PI) <
-                Math.PI
-                  ? "start"
-                  : "end"
-              }
-            >
-              <text
-                transform={
-                  (xScale(xAccessor(datum)) +
-                    xScale.bandwidth() / 2 +
-                    Math.PI) %
-                    (2 * Math.PI) <
-                  Math.PI
-                    ? "rotate(0)"
-                    : "rotate(180)"
-                }
-                alignmentBaseline={"center"}
-                fill="white"
-              >{`day ${xAccessor(datum)}`}</text>
-            </g>
-            <title>{`${Math.round(yAccessor(datum) * 10) / 10}`}</title>
-          </g>
-        ))}
-        <text fill="#7EE8FA" transform="translate(-65,-20)">
-          <tspan x="0">{`min T \u00B0C: `}</tspan>
-          <tspan x="0" dy="1.2em">{`${min(
-            currentMonthData.map(
-              (datum) => Math.round(yAccessor(datum) * 10) / 10
-            )
-          )}`}</tspan>
-        </text>
-        <text fill="#7EE8FA" transform="translate(15,-20)">
-          <tspan x="0">{`max T \u00B0C: `}</tspan>
-          <tspan x="0" dy="1.2em">{`${max(
-            currentMonthData.map(
-              (datum) => Math.round(yAccessor(datum) * 10) / 10
-            )
-          )}`}</tspan>
-        </text>
-        <text fill="#7EE8FA" transform="translate(-25,30)">
-          <tspan x="0">{`median T \u00B0C: `}</tspan>
-          <tspan x="0" dy="1.2em">{`${median(
-            currentMonthData.map(
-              (datum) => Math.round(yAccessor(datum) * 10) / 10
-            )
-          )}`}</tspan>
-        </text>
+        <Marks
+          xScale={xScale}
+          yScale={yScale}
+          xAccessor={xAccessor}
+          yAccessor={yAccessor}
+          currentMonthData={currentMonthData}
+          innerRadius={innerRadius}
+        />
+        <CircularLabels
+          xScale={xScale}
+          yScale={yScale}
+          xAccessor={xAccessor}
+          yAccessor={yAccessor}
+          currentMonthData={currentMonthData}
+        />
+        <CentralLabels
+          yAccessor={yAccessor}
+          currentMonthData={currentMonthData}
+        />
       </g>
     </svg>
   );
 };
 
 export default BarPlot;
-
-/* import { Box } from "@mui/material";
-import Header from "../../components/Header";
-import PieChart from "../../components/PieChart";
-
-const Pie = () => {
-  return (
-    <Box m="20px">
-      <Header title="Pie Chart" subtitle="Simple Pie Chart" />
-      <Box height="75vh">
-        <PieChart />
-      </Box>
-    </Box>
-  );
-};
-
-export default Pie; */
