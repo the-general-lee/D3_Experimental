@@ -1,4 +1,32 @@
-import { Box, useTheme } from "@mui/material";
+import React, { useRef } from "react";
+import { useData } from "./helpers/useData";
+import Marks from "./components/Marks";
+
+const width = 960;
+const height = 500;
+
+const Geography = () => {
+  const svg = useRef();
+  const data = useData();
+
+  if (!data) {
+    return;
+  }
+
+  return (
+    <svg
+      ref={svg}
+      width={width}
+      height={height}
+      transform={"translate(200,50)"}
+    >
+      <Marks data={data} svg={svg} />
+    </svg>
+  );
+};
+export default Geography;
+
+/* import { Box, useTheme } from "@mui/material";
 import GeographyChart from "../../components/GeographyChart";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
@@ -21,4 +49,4 @@ const Geography = () => {
   );
 };
 
-export default Geography;
+export default Geography; */
