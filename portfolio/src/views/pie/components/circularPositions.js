@@ -7,6 +7,8 @@ export const CircularLabels = ({
   yScale,
   yAccessor,
   currentMonthData,
+  width,
+  height,
 }) => {
   return (
     <>
@@ -21,7 +23,8 @@ export const CircularLabels = ({
               ")" +
               "translate(" +
               (yScale(yAccessor(datum)) + 10) +
-              ",0)"
+              ",0)" +
+              `scale(${width / 1200},${height / 600})`
             }
             textAnchor={
               (xScale(xAccessor(datum)) + xScale.bandwidth() / 2 + Math.PI) %
@@ -40,7 +43,7 @@ export const CircularLabels = ({
                   : "rotate(180)"
               }
               alignmentBaseline={"center"}
-              fill="white"
+              fill="#7EE8FA"
             >{`day ${xAccessor(datum)}`}</text>
           </g>
         </g>
@@ -48,10 +51,21 @@ export const CircularLabels = ({
     </>
   );
 };
-export const CentralLabels = ({ yAccessor, currentMonthData }) => {
+export const CentralLabels = ({
+  yAccessor,
+  currentMonthData,
+  width,
+  height,
+  innerRadius,
+}) => {
   return (
     <>
-      <text fill="#7EE8FA" transform="translate(-65,-20)">
+      <text
+        fill="#7EE8FA"
+        transform={`translate(-${0.8125 * innerRadius},-${
+          0.25 * innerRadius
+        })scale(${width / 1200},${height / 600})`}
+      >
         <tspan x="0">{`min T \u00B0C: `}</tspan>
         <tspan x="0" dy="1.2em">{`${min(
           currentMonthData.map(
@@ -59,7 +73,12 @@ export const CentralLabels = ({ yAccessor, currentMonthData }) => {
           )
         )}`}</tspan>
       </text>
-      <text fill="#7EE8FA" transform="translate(15,-20)">
+      <text
+        fill="#7EE8FA"
+        transform={`translate(${0.15 * innerRadius},-${
+          0.25 * innerRadius
+        })scale(${width / 1200},${height / 600})`}
+      >
         <tspan x="0">{`max T \u00B0C: `}</tspan>
         <tspan x="0" dy="1.2em">{`${max(
           currentMonthData.map(
@@ -67,7 +86,12 @@ export const CentralLabels = ({ yAccessor, currentMonthData }) => {
           )
         )}`}</tspan>
       </text>
-      <text fill="#7EE8FA" transform="translate(-25,30)">
+      <text
+        fill="#7EE8FA"
+        transform={`translate(-${0.3125 * innerRadius},${
+          0.375 * innerRadius
+        })scale(${width / 1200},${height / 600})`}
+      >
         <tspan x="0">{`median T \u00B0C: `}</tspan>
         <tspan x="0" dy="1.2em">{`${median(
           currentMonthData.map(
