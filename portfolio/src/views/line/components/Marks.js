@@ -2,18 +2,21 @@ import React, { useState } from "react";
 import { line, curveNatural } from "d3";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
-
+let timer = null;
 export const Marks = ({
   xScale,
   yScale,
   xAccessor,
   yAccessor,
   monthlyData,
+  setShowTooltip,
+  showTooltip,
 }) => {
   const [showPoints, setShowPoints] = useState(false);
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  let timer = null;
+
   return (
     <>
       <path
@@ -35,6 +38,7 @@ export const Marks = ({
           timer = setTimeout(() => setShowPoints(false), 5000);
         }}
       />
+
       {showPoints
         ? monthlyData.map((datum) => (
             <circle
@@ -48,6 +52,16 @@ export const Marks = ({
                   timer = null;
                 }
                 setShowPoints(true);
+              }}
+              onMouseDown={(event) => {
+                setShowTooltip({
+                  x: xScale(xAccessor(datum)),
+                  y: yScale(yAccessor(datum)),
+                  monthInfo: {
+                    year: datum.Date.getFullYear(),
+                    month: datum.Date.getMonth() + 1,
+                  },
+                });
               }}
               onMouseLeave={() => {
                 timer = setTimeout(() => setShowPoints(false), 5000);

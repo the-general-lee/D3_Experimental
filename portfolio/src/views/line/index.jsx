@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { scaleLinear, extent, scaleTime } from "d3";
 
 import { useData } from "./helpers/useData";
 import { Marks } from "./components/Marks";
 import { Channels } from "./components/Channels";
-const margin = { top: 20, bottom: 40, right: 45, left: 80 };
+import BarPlot from "../pie";
+const margin = { top: 140, bottom: 100, right: 45, left: 220 };
 
 const Line = () => {
   const [data, monthlyData] = useData();
+  const [showTooltip, setShowTooltip] = useState(false);
 
   if (data === null || monthlyData === null) {
     return;
@@ -28,25 +30,41 @@ const Line = () => {
     .nice();
 
   return (
-    <svg width={1200} height={600}>
-      <g transform={`translate(${margin.left}, ${margin.top})`}>
-        <Channels
-          xScale={xScale}
-          yScale={yScale}
-          xAccessor={xAccessor}
-          monthlyData={monthlyData}
-          height={height}
-          width={width}
-        />
-        <Marks
-          xScale={xScale}
-          yScale={yScale}
-          xAccessor={xAccessor}
-          yAccessor={yAccessor}
-          monthlyData={monthlyData}
-        />
-      </g>
-    </svg>
+    <>
+      <svg width={1200} height={600} style={{ position: "absolute" }}>
+        <g transform={`translate(${margin.left}, ${margin.top})`}>
+          <Channels
+            xScale={xScale}
+            yScale={yScale}
+            xAccessor={xAccessor}
+            monthlyData={monthlyData}
+            height={height}
+            width={width}
+          />
+          <Marks
+            xScale={xScale}
+            yScale={yScale}
+            xAccessor={xAccessor}
+            yAccessor={yAccessor}
+            monthlyData={monthlyData}
+            setShowTooltip={setShowTooltip}
+            showTooltip={showTooltip}
+          />
+        </g>
+      </svg>
+
+      {showTooltip ? (
+        <>
+          <BarPlot
+            width={900}
+            height={450}
+            innerRadius={50}
+            showTooltip={showTooltip}
+            setShowTooltip={setShowTooltip}
+          />
+        </>
+      ) : null}
+    </>
   );
 };
 
