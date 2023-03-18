@@ -1,17 +1,11 @@
 import React, { useRef } from "react";
-import { useData } from "./helpers/useData";
-import Marks from "./components/Marks";
+import WorldMap from "./components/WorldMap";
 
 const width = 960;
 const height = 500;
 
 const Geography = () => {
   const svg = useRef();
-  const data = useData();
-
-  if (!data) {
-    return;
-  }
 
   return (
     <svg
@@ -20,7 +14,7 @@ const Geography = () => {
       height={height}
       transform={"translate(200,50)"}
     >
-      <Marks data={data} svg={svg} />
+      <WorldMap svgRef={svg} />
     </svg>
   );
 };

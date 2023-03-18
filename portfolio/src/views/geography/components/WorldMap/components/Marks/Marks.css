@@ -20,3 +20,7 @@ pre {
   fill: none;
   stroke: #5268a1;
 }
+.marks .circle {
+  fill: #93d9e4;
+  opacity: 0.3;
+}
