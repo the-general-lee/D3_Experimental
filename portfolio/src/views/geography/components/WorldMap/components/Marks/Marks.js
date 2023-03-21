@@ -19,7 +19,7 @@ const MemoedPathFunc = memoize(
   (tuple) => path(tuple.feature),
   (tuple) => tuple.counter
 );
-const Marks = ({ data: { land, interiors, Missing }, svg: svgRef }) => {
+const Marks = ({ worldMapData: { land, interiors }, Missing }) => {
   const [counter, setCounter] = useState(0);
   const sizeValue = (d) => d["Total Dead and Missing"];
   const maxRadius = 5;
@@ -36,12 +36,13 @@ const Marks = ({ data: { land, interiors, Missing }, svg: svgRef }) => {
       clearInterval(interval);
     };
   }, []);
+  debugger;
   projection.rotate([1 * counter, 0]);
   const tuple = { feature: land.features[0], counter };
 
   const pathGenerated = MemoedPathFunc(tuple);
 
-  Missing = Missing.filter((missing) => missing["Total Dead and Missing"] > 28);
+  //Missing = Missing.filter((missing) => missing["Total Dead and Missing"] > 28);
 
   return (
     <g className="marks">

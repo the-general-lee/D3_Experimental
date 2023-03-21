@@ -2,15 +2,15 @@ import React from "react";
 import Marks from "./components/Marks";
 import { useData } from "./helpers/useData";
 
-export const WorldMap = ({ svgRef }) => {
-  const data = useData();
+export const WorldMap = ({ svgRef, data }) => {
+  const worldMapData = useData();
 
-  if (!data) {
+  if (!worldMapData) {
     return;
   }
   return (
     <>
-      <Marks data={data} svg={svgRef} />
+      <Marks worldMapData={worldMapData} Missing={data} />
     </>
   );
 };
