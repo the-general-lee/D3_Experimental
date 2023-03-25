@@ -2,7 +2,7 @@ import React from "react";
 import Marks from "./components/Marks";
 import { useData } from "./helpers/useData";
 
-export const WorldMap = ({ svgRef, data }) => {
+export const WorldMap = ({ data, filteredData }) => {
   const worldMapData = useData();
 
   if (!worldMapData) {
@@ -10,7 +10,11 @@ export const WorldMap = ({ svgRef, data }) => {
   }
   return (
     <>
-      <Marks worldMapData={worldMapData} Missing={data} />
+      <Marks
+        worldMapData={worldMapData}
+        Missing={data}
+        filteredMissing={filteredData}
+      />
     </>
   );
 };

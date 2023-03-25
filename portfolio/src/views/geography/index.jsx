@@ -17,7 +17,6 @@ const Geography = () => {
         return date > brushExtent[0] && date < brushExtent[1];
       })
     : data;
-  debugger;
   if (!data) return;
 
   return (
@@ -27,7 +26,7 @@ const Geography = () => {
       height={height}
       transform={"translate(200,50)"}
     >
-      <WorldMap svgRef={svg} data={filteredData} />
+      <WorldMap data={data} filteredData={filteredData} />
       <g transform={`translate(0, ${height - 0.2 * height})`}>
         <BarChart
           width={width}

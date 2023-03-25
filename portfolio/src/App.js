@@ -8,6 +8,7 @@ import Invoices from "./views/invoices";
 import Contacts from "./views/contacts";
 import Bar from "./views/bar";
 import Line from "./views/line";
+import Scatter from "./views/scatter";
 import Pie from "./views/pie";
 import FAQ from "./views/faq";
 import Geography from "./views/geography";
@@ -36,6 +37,7 @@ function App() {
               <Route path="/line" element={<Line />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/geography" element={<Geography />} />
+              <Route path="/scatter" element={<Scatter />} />
             </Routes>
           </main>
         </div>
