@@ -9,7 +9,6 @@ const Bar = () => {
       <Box height="75vh">
         <BarChart />
       </Box>
-      {console.log("rendered")}
     </Box>
   );
 };
