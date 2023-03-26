@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import WorldMap from "./components/WorldMap";
 import BarChart from "./components/BarChart";
 import { useData } from "./helpers/useData";
@@ -16,7 +16,7 @@ const Geography = () => {
         const date = xValue(d);
         return date > brushExtent[0] && date < brushExtent[1];
       })
-    : data;
+    : data?.slice(0, 100);
   if (!data) return;
 
   return (
