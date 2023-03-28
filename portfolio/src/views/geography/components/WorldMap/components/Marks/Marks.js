@@ -6,7 +6,7 @@ import {
   max,
   geoCircle,
 } from "d3";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { memoize } from "lodash";
 import "./Marks.css";
 
@@ -28,13 +28,9 @@ const Marks = ({
 }) => {
   const [counter, setCounter] = useState(0);
 
-  const sizeScale = useMemo(
-    () =>
-      scaleSqrt()
-        .domain([0, max(Missing, sizeValue)])
-        .range([0, maxRadius]),
-    [Missing, maxRadius]
-  );
+  const sizeScale = scaleSqrt()
+    .domain([0, max(Missing, sizeValue)])
+    .range([0, maxRadius]);
 
   useEffect(() => {
     const interval = setInterval(
@@ -49,22 +45,23 @@ const Marks = ({
   const tuple = { feature: land.features[0], counter };
 
   const pathGenerated = MemoedPathFunc(tuple);
+  filteredMissing = filteredMissing.filter((datum) =>
+    path(
+      circularPath
+        .center([datum.coords[0], datum.coords[1]])
+        .radius(sizeScale(sizeValue(datum)))(datum)
+    )
+  );
 
   return (
     <g className="marks">
-      {useMemo(
-        () => (
-          <>
-            <path className="sphere" d={path({ type: "Sphere" })} />
-            <path className="graticules" d={path(graticule())} />
+      <path className="sphere" d={path({ type: "Sphere" })} />
+      <path className="graticules" d={path(graticule())} />
 
-            <path className="land" d={pathGenerated} />
+      <path className="land" d={pathGenerated} />
 
-            <path className="interiors" d={path(interiors)} />
-          </>
-        ),
-        [path, graticule, pathGenerated, interiors]
-      )}
+      <path className="interiors" d={path(interiors)} />
+
       {filteredMissing
         ? filteredMissing.map((datum) => {
             return (
